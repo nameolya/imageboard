@@ -43,6 +43,8 @@
                     .post("/upload", formData)
                     .then(function (resp) {
                         console.log("resp from POST /upload:", resp);
+                        console.log("res.data:", resp.data);
+                        thisOfData.images.unshift(resp.data);
                         thisOfData.title = thisOfData.description = thisOfData.username =
                             "";
                         thisOfData.file = null;

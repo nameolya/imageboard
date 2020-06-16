@@ -36,15 +36,15 @@
             </form>
         <div class="imgs-container">
             <div v-if="images" v-for="image in images" class="img-container"> 
-                <img :src="img.url" alt="">
-                <p>{{img.title}}</p>
-                <!-- <p>{{image.description}}</p> -->
+                <img :src="image.url" alt="" class="img">
+                <p>{{image.title}}</p>
+                <p>{{image.description}}</p>
                 </div>
-
            </div>
     </div>
     <script src="/js/vue.js"></script>
     <script src="/js/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="/js/script.js"></script>
 </body>
 </html>
