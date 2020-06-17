@@ -6,15 +6,13 @@
         props: ["id"],
         data: function () {
             return {
-                image: {
-                    title: "",
-                    description: "",
-                    username: "",
-                    url: "",
-                    created_at: null,
-                    id: null,
-                    comments: [],
-                },
+                title: "",
+                description: "",
+                username: "",
+                url: "",
+                created_at: null,
+                id: null,
+                comments: [],
             };
         },
         mounted: function () {
@@ -28,17 +26,16 @@
                     axios.get("/comments/" + self.id),
                 ])
                 .then(
-                    axios
-                        .spread((imageRes, commentsRes) => {
-                            console.log("imageRes: ", imageRes.data);
-                            console.log("commentsRes: ", commentsRes.data);
-                            self.image.comments = commentsRes.data;
-                            self.image = imageRes.data;
-                        })
-
-                        .catch((err) => {
-                            console.log("err in axios:", err);
-                        })
+                    axios.spread((imageRes, commentsRes) => {
+                        console.log("imageRes.data[0]: ", imageRes.data[0]);
+                        console.log("commentsRes.data: ", commentsRes.data);
+                        self.title = imageRes.data[0].title;
+                        self.url = imageRes.data[0].url;
+                        self.description = imageRes.data[0].description;
+                        self.username = imageRes.data[0].username;
+                        self.created_at = imageRes.data[0].created_at;
+                        self.comments = commentsRes.data;
+                    })
                 );
         },
         methods: {

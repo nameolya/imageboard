@@ -20,7 +20,7 @@ module.exports.getImage = (imageId) => {
 };
 
 module.exports.getComments = (imageId) => {
-    return db.query(`SELECT * FROM comments WHERE id=$1`, [imageId]);
+    return db.query(`SELECT * FROM comments WHERE image_id=$1`, [imageId]);
 };
 
 module.exports.addComment = (image_id, comment, username) => {

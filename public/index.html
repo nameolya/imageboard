@@ -43,7 +43,6 @@
         </div>
         <image-component 
             v-if="selectedImage" 
-            post-title="hello vanilla" 
             :id="selectedImage"
             @close="closeModal"
         ></image-component>
@@ -51,16 +50,16 @@
 
     <script type="text/x-template" id="template">
         <div class="component">
-            
-            <img class="component-img" :src="image.url" alt="">
+            <button @click="closeModal">Close</button>
+            <img class="component-img" :src="url" alt="">
             <div class="component-info">
-                <p> {{image.title}}</p>
-                <p>{{image.description}}</p>
-                <p>Uploaded by {{image.username}} on {{image.created_at}}</p>
+                <p> {{title}}</p>
+                <p>{{description}}</p>
+                <p>Uploaded by {{username}} on {{created_at}}</p>
             </div>
             <div class="comments">
                 <h1>Comments</h1>
-                <form class="component-form">
+                <form class="comments-form">
                     <input
                     v-model="username"
                     type="text"
@@ -75,8 +74,13 @@
                 />
                 <button @click="handleClick">submit</button>
                 </form>
-            </div>
-            <button @click="closeModal">Close</button>
+                <div class="comments-box">
+                    <div class="comment" v-for="comment in comments">
+                        <p>{{comment.comment}}</p>
+                        <p>{{comment.username}} | {{comment.created_at}}</p>
+                    </div>
+                </div>
+            </div> 
         </div>
     </script>
 
