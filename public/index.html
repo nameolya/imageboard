@@ -33,15 +33,32 @@
                     accept="image/*"
                 />
                 <button @click="handleClick">submit</button>
-            </form>
+        </form>
         <div class="imgs-container">
-            <div v-if="images" v-for="image in images" class="img-container"> 
+            <div v-if="images" v-for="image in images" class="img-container" @click="selectedImage=image.id"> 
                 <img :src="image.url" alt="" class="img">
                 <p>{{image.title}}</p>
                 <p>{{image.description}}</p>
                 </div>
-           </div>
+        </div>
+        <image-component 
+            v-if="selectedImage" 
+            post-title="hello vanilla" 
+            :id="selectedImage"
+            @close="closeModal"
+        ></image-component>
     </div>
+
+    <script type="text/x-template" id="template">
+        <div class="component">
+            <h1>This is my first component: name: {{ title }}</h1>
+            <p>
+                Hello {{ name }}
+            </p>
+            <button @click="closeModal">Close</button>
+        </div>
+    </script>
+
     <script src="/js/vue.js"></script>
     <script src="/js/axios.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>

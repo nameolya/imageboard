@@ -1,6 +1,69 @@
 (function () {
     console.log("sanity check");
 
+    Vue.component("image-component", {
+        template: "#template",
+        props: ["postTitle", "id"],
+        data: function () {
+            return {
+                comments: [],
+                title: "",
+                description: "",
+                username: "",
+                url: "",
+                created_at: null,
+                id: null,
+            };
+        },
+        mounted: function () {
+            console.log("component mounted! this.postTitle:", this.postTitle);
+            console.log("this.id: ", this.id);
+            var self = this;
+            axios
+                .get("/image/" + self.id)
+                //update the index.js file with this route, check data
+                .then(function (response) {
+                    console.log("response.data: ", response.data);
+                    self.image = response.data;
+                })
+                .catch((err) => {
+                    console.log("err: ", err);
+                });
+        },
+        methods: {
+            handleClick: function (e) {
+                console.log("clicked submit comments button!");
+                e.preventDefault();
+                console.log("this:", this);
+                //// change here:
+                var formData = new FormData();
+                formData.append("title", this.title);
+                formData.append("description", this.description);
+                formData.append("username", this.username);
+                formData.append("file", this.file);
+                var thisOfData = this;
+                axios
+                    .post("/upload", formData)
+                    .then(function (resp) {
+                        console.log("resp from POST /upload:", resp);
+                        console.log("res.data:", resp.data);
+                        thisOfData.images.unshift(resp.data);
+                        thisOfData.title = thisOfData.description = thisOfData.username =
+                            "";
+                        thisOfData.file = null;
+                    })
+                    .catch(function (err) {
+                        console.log("err in POST /upload:", err);
+                    });
+            },
+
+            closeModal: function () {
+                console.log("close modal");
+                this.$emit("close", this.comments);
+            },
+        },
+    });
+
     new Vue({
         el: "#main",
         data: {
@@ -9,6 +72,8 @@
             description: "",
             username: "",
             file: null,
+            //change this:
+            selectedImage: null,
         },
         mounted: function () {
             var self = this;
@@ -25,19 +90,14 @@
 
         methods: {
             handleClick: function (e) {
-                console.log("clicked submit  button!");
-                // prevent refresh from running on button click:
+                console.log("clicked submit file button!");
                 e.preventDefault();
-                // whatever code I write will run whenever the user clicks the submit btn
-                // to see what is in my data object of the vue instance log this
                 console.log("this:", this);
-                // we NEED to use FormData to send a file to the server
                 var formData = new FormData();
                 formData.append("title", this.title);
                 formData.append("description", this.description);
                 formData.append("username", this.username);
                 formData.append("file", this.file);
-                // formData has this strange behavior that if I console.log it at this point it will log an empty object!!! You have to loop through the values of the object in a specific way if you want to see them client side.
                 var thisOfData = this;
                 axios
                     .post("/upload", formData)
@@ -55,11 +115,13 @@
             },
             handleChange: function (e) {
                 console.log("handleChange ran");
-                // our eventobject has access to the file that was put the input field, aka selected for upload
                 console.log("file:", e.target.files[0]);
-                // make sure that our file property of our data object holds the value of our file in the input field
                 this.file = e.target.files[0];
-                // we are using FormData because we want to send files along in our request to the server!
+            },
+            closeModal: function () {
+                //change this:
+                console.log("the event close was heard!");
+                // console.log("count:", count);
             },
         },
     });

@@ -10,7 +10,18 @@ module.exports.getImages = () => {
 
 module.exports.addImage = (fullUrl, username, title, description) => {
     return db.query(
-        `INSERT INTO images (url, username, title, description) VALUES ($1, $2, $3, $4) RETURNING url, username, title, description`,
+        `INSERT INTO images (url, username, title, description) VALUES ($1, $2, $3, $4) RETURNING id, url, username, title, description`,
         [fullUrl, username, title, description]
     );
 };
+
+module.exports.getImageAndComments = (imageId) => {
+    return db.query(
+        `SELECT * FROM images LEFT JOIN comments ON images.id=comments.image_id WHERE images.id=$1`,
+        [imageId]
+    );
+};
+
+//module.exports.getComments = (imageId) => {
+//return db.query(`SELECT * FROM comments WHERE id=$1`, [imageId]);
+//};
