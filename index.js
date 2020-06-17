@@ -80,10 +80,30 @@ app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
             req.body.username,
             req.body.title,
             req.body.description
-        ).then((results) => {
-            console.log("addImage results.rows[0]:", results.rows[0]);
-            res.json(results.rows[0]);
-        });
+        )
+            .then((results) => {
+                console.log("addImage results.rows[0]:", results.rows[0]);
+                res.json(results.rows[0]);
+            })
+            .catch((err) => {
+                console.log("err in addImage:", err);
+            });
+    } else {
+        res.json({ success: false });
+    }
+});
+
+app.post("/comment", (req, res) => {
+    console.log("req.body:", req.body);
+    if (req.body.comment && req.body.username) {
+        db.addComment(req.body.image_id, req.body.comment, req.body.username)
+            .then((results) => {
+                console.log("addComment results.rows[0]:", results.rows[0]);
+                res.json(results.rows[0]);
+            })
+            .catch((err) => {
+                console.log("err in addComment:", err);
+            });
     } else {
         res.json({ success: false });
     }

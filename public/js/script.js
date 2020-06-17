@@ -3,16 +3,18 @@
 
     Vue.component("image-component", {
         template: "#template",
-        props: ["postTitle", "id"],
+        props: ["id"],
         data: function () {
             return {
-                comments: [],
-                title: "",
-                description: "",
-                username: "",
-                url: "",
-                created_at: null,
-                id: null,
+                image: {
+                    title: "",
+                    description: "",
+                    username: "",
+                    url: "",
+                    created_at: null,
+                    id: null,
+                    comments: [],
+                },
             };
         },
         mounted: function () {
@@ -26,38 +28,40 @@
                     axios.get("/comments/" + self.id),
                 ])
                 .then(
-                    axios.spread((imageRes, commentsRes) => {
-                        console.log("imageRes: ", imageRes);
-                        console.log("commentsRes: ", commentsRes);
-                        self.image = imageRes.data;
-                        self.comments = commentsRes.data;
-                    })
+                    axios
+                        .spread((imageRes, commentsRes) => {
+                            console.log("imageRes: ", imageRes.data);
+                            console.log("commentsRes: ", commentsRes.data);
+                            self.image.comments = commentsRes.data;
+                            self.image = imageRes.data;
+                        })
+
+                        .catch((err) => {
+                            console.log("err in axios:", err);
+                        })
                 );
         },
         methods: {
             handleClick: function (e) {
                 console.log("clicked submit comments button!");
                 e.preventDefault();
+                var self = this;
+
                 console.log("this:", this);
-                //// change here:
-                var formData = new FormData();
-                formData.append("title", this.title);
-                formData.append("description", this.description);
-                formData.append("username", this.username);
-                formData.append("file", this.file);
-                var thisOfData = this;
+                var newComment = {};
+                newComment.comment = this.comment;
+                newComment.username = this.username;
+                newComment.image_id = this.id;
+                console.log("newComment:", newComment);
                 axios
-                    .post("/upload", formData)
+                    .post("/comment", newComment)
                     .then(function (resp) {
-                        console.log("resp from POST /upload:", resp);
+                        console.log("resp from POST /comment:", resp);
                         console.log("res.data:", resp.data);
-                        thisOfData.images.unshift(resp.data);
-                        thisOfData.title = thisOfData.description = thisOfData.username =
-                            "";
-                        thisOfData.file = null;
+                        self.comments.unshift(resp.data);
                     })
                     .catch(function (err) {
-                        console.log("err in POST /upload:", err);
+                        console.log("err in POST /comment:", err);
                     });
             },
 
@@ -71,6 +75,7 @@
     new Vue({
         el: "#main",
         data: {
+            id: null,
             images: [],
             title: "",
             description: "",
@@ -122,9 +127,7 @@
                 this.file = e.target.files[0];
             },
             closeModal: function () {
-                //change this:
-                console.log("the event close was heard!");
-                // console.log("count:", count);
+                this.selectedImage = null;
             },
         },
     });
