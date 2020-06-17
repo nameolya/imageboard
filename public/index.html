@@ -51,10 +51,31 @@
 
     <script type="text/x-template" id="template">
         <div class="component">
-            <h1>This is my first component: name: {{ title }}</h1>
-            <p>
-                Hello {{ name }}
-            </p>
+            
+            <img class="component-img" :src="image.url" alt="">
+            <div class="component-info">
+                <p> {{image.title}}</p>
+                <p>{{image.description}}</p>
+                <p>Uploaded by {{image.username}} on {{image.created_at}}</p>
+            </div>
+            <div class="comments">
+                <h1>Comments</h1>
+                <form class="component-form">
+                    <input
+                    v-model="username"
+                    type="text"
+                    name="username"
+                    placeholder="username"
+                />
+                <input
+                    v-model="comment"
+                    type="text"
+                    name="comment"
+                    placeholder="comment"
+                />
+                <button @click="handleClick">submit</button>
+                </form>
+            </div>
             <button @click="closeModal">Close</button>
         </div>
     </script>

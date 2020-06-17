@@ -15,13 +15,10 @@ module.exports.addImage = (fullUrl, username, title, description) => {
     );
 };
 
-module.exports.getImageAndComments = (imageId) => {
-    return db.query(
-        `SELECT * FROM images LEFT JOIN comments ON images.id=comments.image_id WHERE images.id=$1`,
-        [imageId]
-    );
+module.exports.getImage = (imageId) => {
+    return db.query(`SELECT * FROM images WHERE id=$1`, [imageId]);
 };
 
-//module.exports.getComments = (imageId) => {
-//return db.query(`SELECT * FROM comments WHERE id=$1`, [imageId]);
-//};
+module.exports.getComments = (imageId) => {
+    return db.query(`SELECT * FROM comments WHERE id=$1`, [imageId]);
+};

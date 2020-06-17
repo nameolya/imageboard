@@ -31,7 +31,7 @@ const uploader = multer({
 app.get("/images", (req, res) => {
     db.getImages()
         .then((results) => {
-            console.log("results before json", results);
+            console.log("results before json", results.rows);
             res.json(results.rows);
         })
         .catch((err) => {
@@ -41,16 +41,28 @@ app.get("/images", (req, res) => {
 
 app.get("/image/:id", (req, res) => {
     console.log("req.params:", req.params);
-    db.getImageAndComments(req.params.id)
+    db.getImage(req.params.id)
         .then((results) => {
-            console.log("results before json, results.rows:", results.rows);
+            console.log("image, results.rows[0]:", results.rows[0]);
             res.json(results.rows);
         })
         .catch((err) => {
-            console.log("err in getImages:", err);
+            console.log("err in getImage:", err);
         });
 });
 
+app.get("/comments/:id", (req, res) => {
+    console.log("comments requested");
+    console.log("req.params:", req.params);
+    db.getComments(req.params.id)
+        .then((results) => {
+            console.log("comments, results.rows:", results.rows);
+            res.json(results.rows);
+        })
+        .catch((err) => {
+            console.log("err in getComments:", err);
+        });
+});
 // uploader triggers  multer boilerplate that handles that files are being stored on  harddisk,
 //in the uploads folder, single is a method of uploader
 //'file' comes from the property that was  set on formData

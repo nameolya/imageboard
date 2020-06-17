@@ -19,16 +19,20 @@
             console.log("component mounted! this.postTitle:", this.postTitle);
             console.log("this.id: ", this.id);
             var self = this;
+
             axios
-                .get("/image/" + self.id)
-                //update the index.js file with this route, check data
-                .then(function (response) {
-                    console.log("response.data: ", response.data);
-                    self.image = response.data;
-                })
-                .catch((err) => {
-                    console.log("err: ", err);
-                });
+                .all([
+                    axios.get("/image/" + self.id),
+                    axios.get("/comments/" + self.id),
+                ])
+                .then(
+                    axios.spread((imageRes, commentsRes) => {
+                        console.log("imageRes: ", imageRes);
+                        console.log("commentsRes: ", commentsRes);
+                        self.image = imageRes.data;
+                        self.comments = commentsRes.data;
+                    })
+                );
         },
         methods: {
             handleClick: function (e) {
@@ -72,7 +76,6 @@
             description: "",
             username: "",
             file: null,
-            //change this:
             selectedImage: null,
         },
         mounted: function () {
