@@ -35,19 +35,21 @@
                 <button @click="handleClick">submit</button>
         </form>
         <div class="imgs-container">
-            <div v-if="images" v-for="image in images" class="img-container" @click="selectedImage=image.id"> 
-                <img :src="image.url" alt="" class="img">
-                <p>{{image.title}}</p>
-                <p>{{image.description}}</p>
-                </div>
+            <div v-if="images" v-for="image in images" class="img-container" > 
+                <a :href=" '#' + image.id">
+                    <img :src="image.url" alt="" class="img">
+                    <!-- <p>{{image.title}}</p>
+                    <p>{{image.description}}</p> -->
+                </a>
+            </div>
         </div>
         <div>
             <button  @click="getMoreImages">More</button>
         </div>
        
         <image-component 
-            v-if="selectedImage" 
-            :id="selectedImage"
+            v-if="id" 
+            :id="id"
             @close="closeModal"
         ></image-component>
     </div>

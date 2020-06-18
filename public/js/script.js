@@ -37,6 +37,31 @@
                     })
                 );
         },
+        watch: {
+            id: function () {
+                console.log("image id changed, the watcher reporting");
+                console.log("this.id: ", this.id);
+                var self = this;
+
+                axios
+                    .all([
+                        axios.get("/image/" + self.id),
+                        axios.get("/comments/" + self.id),
+                    ])
+                    .then(
+                        axios.spread((imageRes, commentsRes) => {
+                            console.log("imageRes.data[0]: ", imageRes.data[0]);
+                            console.log("commentsRes.data: ", commentsRes.data);
+                            self.title = imageRes.data[0].title;
+                            self.url = imageRes.data[0].url;
+                            self.description = imageRes.data[0].description;
+                            self.username = imageRes.data[0].username;
+                            self.created_at = imageRes.data[0].created_at;
+                            self.comments = commentsRes.data;
+                        })
+                    );
+            },
+        },
         methods: {
             handleClick: function (e) {
                 console.log("clicked submit comments button!");
@@ -71,13 +96,12 @@
     new Vue({
         el: "#main",
         data: {
-            id: null,
+            id: location.hash.slice(1),
             images: [],
             title: "",
             description: "",
             username: "",
             file: null,
-            selectedImage: null,
         },
         mounted: function () {
             var self = this;
@@ -90,6 +114,10 @@
                 .catch((err) => {
                     console.log("err: ", err);
                 });
+            window.addEventListener("hashchange", function () {
+                console.log("location.hash", location.hash);
+                self.id = location.hash.slice(1);
+            });
         },
 
         methods: {
@@ -122,7 +150,8 @@
                 this.file = e.target.files[0];
             },
             closeModal: function () {
-                this.selectedImage = null;
+                this.id = null;
+                location.hash = "";
             },
             getMoreImages: function (e) {
                 console.log("clicked more file button!");
