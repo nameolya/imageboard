@@ -42,7 +42,6 @@
                 console.log("image id changed, the watcher reporting");
                 console.log("this.id: ", this.id);
                 var self = this;
-
                 axios
                     .all([
                         axios.get("/image/" + self.id),
@@ -50,14 +49,16 @@
                     ])
                     .then(
                         axios.spread((imageRes, commentsRes) => {
-                            console.log("imageRes.data[0]: ", imageRes.data[0]);
-                            console.log("commentsRes.data: ", commentsRes.data);
-                            self.title = imageRes.data[0].title;
-                            self.url = imageRes.data[0].url;
-                            self.description = imageRes.data[0].description;
-                            self.username = imageRes.data[0].username;
-                            self.created_at = imageRes.data[0].created_at;
-                            self.comments = commentsRes.data;
+                            if (imageRes.data[0]) {
+                                self.title = imageRes.data[0].title;
+                                self.url = imageRes.data[0].url;
+                                self.description = imageRes.data[0].description;
+                                self.username = imageRes.data[0].username;
+                                self.created_at = imageRes.data[0].created_at;
+                                self.comments = commentsRes.data;
+                            } else {
+                                this.$emit("close");
+                            }
                         })
                     );
             },
@@ -102,6 +103,7 @@
             description: "",
             username: "",
             file: null,
+            notLastRow: true,
         },
         mounted: function () {
             var self = this;
@@ -173,6 +175,7 @@
                         console.log("resp.data from  GET/more:", resp.data);
                         if ((resp.data[3].id = 1)) {
                             console.log("last row");
+                            thisOfData.notLastRow = false;
                         }
                         for (var i = 0; i < resp.data.length; i++) {
                             thisOfData.images.unshift(resp.data[i]);

@@ -44,7 +44,7 @@
             </div>
         </div>
         <div>
-            <button  @click="getMoreImages">More</button>
+            <button  v-if="notLastRow" @click="getMoreImages">More</button>
         </div>
        
         <image-component 
