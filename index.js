@@ -51,6 +51,18 @@ app.get("/image/:id", (req, res) => {
         });
 });
 
+app.get("/more/:id", (req, res) => {
+    console.log("get more, req.params:", req.params);
+    db.getMoreImages(req.params.id)
+        .then((results) => {
+            console.log("results.rows:", results.rows);
+            res.json(results.rows);
+        })
+        .catch((err) => {
+            console.log("err in getMoreImages:", err);
+        });
+});
+
 app.get("/comments/:id", (req, res) => {
     console.log("comments requested");
     console.log("req.params:", req.params);

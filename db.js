@@ -5,7 +5,14 @@ var db = spicedPg(
 );
 
 module.exports.getImages = () => {
-    return db.query(`SELECT * FROM images`);
+    return db.query(`SELECT * FROM images ORDER BY id DESC LIMIT 4`);
+};
+
+module.exports.getMoreImages = (lastId) => {
+    return db.query(
+        `SELECT * FROM images WHERE id< $1ORDER BY id DESC LIMIT 4`,
+        [lastId]
+    );
 };
 
 module.exports.addImage = (fullUrl, username, title, description) => {

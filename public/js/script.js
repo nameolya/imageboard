@@ -11,7 +11,6 @@
                 username: "",
                 url: "",
                 created_at: null,
-                id: null,
                 comments: [],
             };
         },
@@ -46,8 +45,8 @@
 
                 console.log("this:", this);
                 var newComment = {};
-                newComment.comment = this.comment;
-                newComment.username = this.username;
+                newComment.comment = this.newComment;
+                newComment.username = this.userCommented;
                 newComment.image_id = this.id;
                 console.log("newComment:", newComment);
                 axios
@@ -107,8 +106,7 @@
                 axios
                     .post("/upload", formData)
                     .then(function (resp) {
-                        console.log("resp from POST /upload:", resp);
-                        console.log("res.data:", resp.data);
+                        console.log("resp.data from POST /upload:", resp.data);
                         thisOfData.images.unshift(resp.data);
                         thisOfData.title = thisOfData.description = thisOfData.username =
                             "";
@@ -125,6 +123,35 @@
             },
             closeModal: function () {
                 this.selectedImage = null;
+            },
+            getMoreImages: function (e) {
+                console.log("clicked more file button!");
+                e.preventDefault();
+                var thisOfData = this;
+                console.log("thisOfData.images:", thisOfData.images);
+                console.log(
+                    "thisOfData.images.length:",
+                    thisOfData.images.length
+                );
+                console.log(
+                    "thisOfData.images[thisOfData.images.length-1].id",
+                    thisOfData.images[thisOfData.images.length - 1].id
+                );
+                var lastId = thisOfData.images[thisOfData.images.length - 1].id;
+                axios
+                    .get("/more/" + lastId)
+                    .then(function (resp) {
+                        console.log("resp.data from  GET/more:", resp.data);
+                        if ((resp.data[3].id = 1)) {
+                            console.log("last row");
+                        }
+                        for (var i = 0; i < resp.data.length; i++) {
+                            thisOfData.images.unshift(resp.data[i]);
+                        }
+                    })
+                    .catch(function (err) {
+                        console.log("err in GET /more:", err);
+                    });
             },
         },
     });

@@ -41,6 +41,10 @@
                 <p>{{image.description}}</p>
                 </div>
         </div>
+        <div>
+            <button  @click="getMoreImages">More</button>
+        </div>
+       
         <image-component 
             v-if="selectedImage" 
             :id="selectedImage"
@@ -50,8 +54,12 @@
 
     <script type="text/x-template" id="template">
         <div class="component">
-            <button @click="closeModal">Close</button>
-            <img class="component-img" :src="url" alt="">
+            <div>
+                <button @click="closeModal">Close</button>
+            </div>
+            <div>
+                <img class="component-img" :src="url" alt="">
+            </div>
             <div class="component-info">
                 <p> {{title}}</p>
                 <p>{{description}}</p>
@@ -61,16 +69,16 @@
                 <h1>Comments</h1>
                 <form class="comments-form">
                     <input
-                    v-model="username"
+                    v-model="userCommented"
                     type="text"
                     name="username"
-                    placeholder="username"
+                    placeholder="Your username"
                 />
                 <input
-                    v-model="comment"
+                    v-model="newComment"
                     type="text"
                     name="comment"
-                    placeholder="comment"
+                    placeholder="Comment here"
                 />
                 <button @click="handleClick">submit</button>
                 </form>
