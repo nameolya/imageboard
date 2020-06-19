@@ -173,9 +173,11 @@
                     .get("/more/" + lastId)
                     .then(function (resp) {
                         console.log("resp.data from  GET/more:", resp.data);
-                        if ((resp.data[3].id = 1)) {
-                            console.log("last row");
-                            thisOfData.notLastRow = false;
+
+                        for (var i = 0; i < resp.data.length; i++) {
+                            if ((resp.data[i].id = 1)) {
+                                thisOfData.notLastRow = false;
+                            }
                         }
                         for (var i = 0; i < resp.data.length; i++) {
                             thisOfData.images.unshift(resp.data[i]);

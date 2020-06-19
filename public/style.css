@@ -1,5 +1,5 @@
 body {
-    background-color: blue;
+    background-color: #000839;
 }
 
 .imgs-container {
@@ -11,13 +11,20 @@ body {
     margin-left: 30px;
 }
 
+a {
+    color: #000839;
+    text-decoration: none;
+    font-family: "MuseoModerno", serif;
+    font-size: 150%;
+}
+
 .img-container {
     width: 300px;
     justify-self: center;
     height: 300px;
     overflow: hidden;
     text-align: center;
-    background: white;
+    background: whitesmoke;
 }
 
 .img {
@@ -28,7 +35,7 @@ body {
 }
 
 form {
-    margin: 5px 0px 20px 30px;
+    margin: 5px 35px 20px 35px;
 }
 
 h1 {
@@ -41,9 +48,95 @@ h1 {
 
 .component {
     position: fixed;
-    background: lightblue;
-    top: 30px;
-    bottom: 30px;
-    left: 30px;
-    right: 30px;
+    top: 80px;
+    bottom: 100px;
+    left: 150px;
+    right: 150px;
+    background: #000839;
+    /* border: red dotted; */
+}
+
+.component-img {
+    /* border: yellow dotted; */
+    width: 100%;
+    height: 300px;
+}
+
+.component-general {
+    /* border: green dotted; */
+    display: flex;
+    margin-left: 100px;
+    margin-right: 100px;
+    color: whitesmoke;
+}
+
+.component-image-info {
+    width: 450px;
+    background-color: whitesmoke;
+}
+
+.header {
+    color: #96d1c7;
+    font-family: "MuseoModerno", cursive;
+}
+
+.comment {
+    border-bottom: #96d1c7 1px dashed;
+}
+
+.comments {
+    margin-left: 80px;
+    /* border: yellow dotted; */
+}
+.comment-comment {
+    font-family: "Raleway", sans-serif;
+}
+
+.added-by {
+    font-family: "Raleway", sans-serif;
+    font-size: 70%;
+    font-style: italic;
+}
+
+.closemodal {
+    margin: 30px 0px 30px 100px;
+}
+
+.component-info {
+    background: whitesmoke;
+    color: #000839;
+    height: 130px;
+    text-align: center;
+}
+
+.comments-form {
+    display: flex;
+}
+.comments-box {
+    color: whitesmoke;
+}
+
+.component-title {
+    font-family: "MuseoModerno", cursive;
+    font-size: 150%;
+    margin-top: 0;
+}
+
+.description {
+    font-family: "Raleway", sans-serif;
+    font-size: 120%;
+}
+
+.share-line {
+    color: #96d1c7;
+    font-family: "MuseoModerno", cursive;
+    font-size: 150%;
+}
+
+.main-form {
+    background: #96d1c7;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    border-radius: 5px;
 }

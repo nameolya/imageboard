@@ -5,12 +5,12 @@ var db = spicedPg(
 );
 
 module.exports.getImages = () => {
-    return db.query(`SELECT * FROM images ORDER BY id DESC LIMIT 4`);
+    return db.query(`SELECT * FROM images ORDER BY id DESC LIMIT 8`);
 };
 
 module.exports.getMoreImages = (lastId) => {
     return db.query(
-        `SELECT * FROM images WHERE id< $1ORDER BY id DESC LIMIT 4`,
+        `SELECT * FROM images WHERE id< $1 ORDER BY id DESC LIMIT 4`,
         [lastId]
     );
 };

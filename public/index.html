@@ -1,13 +1,14 @@
 <!doctype html>
 <html>
 <head>
-    <title>My Imageboard</title>
+    <title>Cloud hunters</title>
     <link rel="stylesheet" href="/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=MuseoModerno&family=Raleway&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1>My Imageboard</h1>
+    <h1 class="header">Cloud hunters</h1>
     <div id="main">
-        <form>
+        <form class="main-form">
                 <input
                     v-model="title"
                     type="text"
@@ -32,19 +33,20 @@
                     name="file"
                     accept="image/*"
                 />
-                <button @click="handleClick">submit</button>
+                <button class="main-button"
+                @click="handleClick">Share my cloud</button>
         </form>
         <div class="imgs-container">
             <div v-if="images" v-for="image in images" class="img-container" > 
                 <a :href=" '#' + image.id">
                     <img :src="image.url" alt="" class="img">
-                    <!-- <p>{{image.title}}</p>
-                    <p>{{image.description}}</p> -->
+                    <p>{{image.title}}</p>
+                    <!-- <p>{{image.description}}</p> -->
                 </a>
             </div>
         </div>
         <div>
-            <button  v-if="notLastRow" @click="getMoreImages">More</button>
+            <button v-if="notLastRow" @click="getMoreImages">More</button>
         </div>
        
         <image-component 
@@ -57,39 +59,41 @@
     <script type="text/x-template" id="template">
         <div class="component">
             <div>
-                <button @click="closeModal">Close</button>
+                <button class="closemodal" @click="closeModal">Close</button>
             </div>
-            <div>
-                <img class="component-img" :src="url" alt="">
-            </div>
-            <div class="component-info">
-                <p> {{title}}</p>
-                <p>{{description}}</p>
-                <p>Uploaded by {{username}} on {{created_at}}</p>
-            </div>
-            <div class="comments">
-                <h1>Comments</h1>
-                <form class="comments-form">
-                    <input
-                    v-model="userCommented"
-                    type="text"
-                    name="username"
-                    placeholder="Your username"
-                />
-                <input
-                    v-model="newComment"
-                    type="text"
-                    name="comment"
-                    placeholder="Comment here"
-                />
-                <button @click="handleClick">submit</button>
-                </form>
-                <div class="comments-box">
-                    <div class="comment" v-for="comment in comments">
-                        <p>{{comment.comment}}</p>
-                        <p>{{comment.username}} | {{comment.created_at}}</p>
+            <div class="component-general">
+                <div class="component-img-info">
+                    <img class="component-img" :src="url" alt="">
+                    <div class="component-info">
+                        <p class="component-title"> {{title}}</p>
+                        <p class="description">{{description}}</p>
+                        <p class="added-by">Uploaded by {{username}} on {{created_at}}</p>
                     </div>
                 </div>
+                <div class="comments">
+                    <h1 class="header">Comments</h1>
+                    <div class="comments-box">
+                        <div class="comment" v-for="comment in comments">
+                            <p class="comment-comment">{{comment.comment}}</p>
+                            <p class="added-by">{{comment.username}} | {{comment.created_at}}</p>
+                        </div>
+                    </div>
+                    <form class="comments-form">
+                        <input
+                        v-model="userCommented"
+                        type="text"
+                        name="username"
+                        placeholder="Your username"
+                    />
+                    <input
+                        v-model="newComment"
+                        type="text"
+                        name="comment"
+                        placeholder="Comment here"
+                    />
+                    <button @click="handleClick">submit</button>
+                    </form>
+                </div>       
             </div> 
         </div>
     </script>
