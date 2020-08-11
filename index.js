@@ -6,7 +6,7 @@ const uidSafe = require("uid-safe"); // npm pkg that generates random and unique
 const path = require("path"); // core module, helps with handling files by providing path
 const s3 = require("./s3");
 const s3Url = require("./config.json");
-
+//
 app.use(express.static("./public"));
 app.use(express.json());
 
